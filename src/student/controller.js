@@ -5,6 +5,13 @@ const {
   checkEmailExists,
 } = require("./queries");
 
+// const getStudents = (req, res) => {
+//   pool.query("SELECT * FROM students", (error, results) => {
+//     if (error) throw error;
+//     res.status(200).json(results.rows);
+//   });
+// };
+
 const getStudents = (req, res) => {
   pool.query(getStudentsQuery, (error, results) => {
     if (error) throw error;
@@ -17,6 +24,7 @@ const getStudentsById = (req, res) => {
   //the id will be coming back to us as a string so we need to parse it to a number
   // the .params is define from our routes where we do '/:id' so its the endpoint of the link
   const id = parseInt(req.params.id);
+
   pool.query(getStudentById, [id], (error, results) => {
     if (error) throw error;
 
