@@ -3,6 +3,7 @@ const {
   getStudentsQuery,
   getStudentById,
   checkEmailExists,
+  addStudentQuery,
 } = require("./queries");
 
 // const getStudents = (req, res) => {
@@ -41,9 +42,17 @@ const addStudent = (req, res) => {
 
   //check if the email exist
   pool.query(checkEmailExists, [email], (error, results) => {
+    //if there is something in the array , aka an email exisiting
     if (results.rows.length) {
       res.send("Email already exists.");
     }
+
+    //add student to db
+    pool.query(addStudentQuery, [name, email, age, dob], (error, results) => {
+      if (error) throw error;
+      res.status(201).send("Students has been created.");
+      console.log("Student create:", { name, email, age, dob });
+    });
   });
 };
 
