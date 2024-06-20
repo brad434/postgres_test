@@ -4,6 +4,7 @@ const {
   getStudentById,
   checkEmailExists,
   addStudentQuery,
+  removeStudent,
 } = require("./queries");
 
 // const getStudents = (req, res) => {
@@ -18,6 +19,7 @@ const getStudents = (req, res) => {
     if (error) throw error;
     // if the response (res) is true then return our data in a json format from the results data and grabbing the rows of the database
     res.status(200).json(results.rows);
+    addStudentQuery;
   });
 };
 
@@ -56,4 +58,25 @@ const addStudent = (req, res) => {
   });
 };
 
-module.exports = { getStudents, getStudentsById, addStudent };
+const deleteStudentById = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  pool.query(getStudentById, [id], (error, results) => {
+    const noStudentFound = !results.rows.length;
+    if (noStudentFound) {
+      res.send("Student does not exist in the database");
+    }
+
+    pool.query(removeStudent, [id], (error, results) => {
+      if (error) throw error;
+      res.status(200).send("Student removed successfully.");
+    });
+  });
+};
+
+module.exports = {
+  getStudents,
+  getStudentsById,
+  addStudent,
+  deleteStudentById,
+};

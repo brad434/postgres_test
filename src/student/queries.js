@@ -11,9 +11,13 @@ const checkEmailExists = "SELECT email FROM students WHERE email = $1";
 const addStudentQuery =
   "INSERT INTO students (name, email, age, dob) VALUES ($1, $2, $3, $4)";
 
+//it deletes the row
+const removeStudent = "DELETE FROM students WHERE id = $1";
+
 module.exports = {
   getStudentsQuery,
   getStudentById,
   checkEmailExists,
   addStudentQuery,
+  removeStudent,
 };
